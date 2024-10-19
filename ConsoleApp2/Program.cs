@@ -1,12 +1,26 @@
-﻿using OpenQA.Selenium;
+﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 public class FirstSelenium
 {
+
+
     static void Main()
     {
         IWebDriver driver = new ChromeDriver();
+        ExtentReports extentReports = new ExtentReports();
+        
+        ExtentSparkReporter reportpath = new ExtentSparkReporter(@"D:\New folder\Report.html");
+
+        extentReports.AttachReporter(reportpath);
+
+        ExtentTest test = extentReports.CreateTest("Login Test", "This is our first test case");
 
         driver.Navigate().GoToUrl("https://practicetestautomation.com/practice-test-login/");
+
+        test.Log(Status.Info, "Open Browser");
+
         Console.WriteLine("Open Browser");
 
         driver.Manage().Window.Maximize();
@@ -28,6 +42,8 @@ public class FirstSelenium
         {
             Console.WriteLine("Failed Login");
         }
+        driver.Quit();
+        extentReports.Flush();
 
     }
 }
